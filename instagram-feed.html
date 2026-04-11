@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro Automotivo de Lei - Instagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        header a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .add-post-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .add-post-section h2 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .input-group input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group input::placeholder {
+            color: #aaa;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-danger {
+            background: #ff4757;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-danger:hover {
+            background: #ff3838;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .post-card iframe {
+            border: none;
+            border-radius: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            font-size: 0.95rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #fff3f3;
+            border: 1px solid #ff4757;
+            color: #ff4757;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #f0fff4;
+            border: 1px solid #2ed573;
+            color: #2ed573;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-group input {
+                min-width: 100%;
+            }
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+
+        .news-card .news-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .news-card .news-image-placeholder {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .news-card .news-image-placeholder svg {
+            width: 48px;
+            height: 48px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .news-card .news-content {
+            padding: 1.25rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card h3 {
+            font-size: 1rem;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .news-card h3 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .news-card h3 a:hover {
+            color: #667eea;
+        }
+
+        .news-card p {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-card .news-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .news-card .news-source-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .news-card .source-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .news-card .source-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .news-card .news-date {
+            font-size: 0.75rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📸 Centro Automotivo de Lei</h1>
+            <p>Posts recentes do Instagram • <a href="https://www.instagram.com/centroautomotivodelei" target="_blank" rel="noopener noreferrer">@centroautomotivodelei</a></p>
+        </header>
+
+        <div class="add-post-section">
+            <h2>➕ Adicionar Post do Instagram</h2>
+            <div class="input-group">
+                <input 
+                    type="url" 
+                    id="postUrl" 
+                    placeholder="Cole a URL do post do Instagram aqui..."
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button class="btn btn-primary" onclick="addPost()">Adicionar Post</button>
+            </div>
+            <div class="error-message" id="errorMsg"></div>
+            <div class="success-message" id="successMsg"></div>
+        </div>
+
+        <div class="add-post-section">
+            <h2>📰 Notícias Automotivas</h2>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Últimas notícias sobre carros, manutenção e segurança</p>
+            <div id="newsContainer" class="news-grid">
+                <div class="loading" id="newsLoading">
+                    <div class="spinner" style="border-color: rgba(102,126,234,0.3); border-top-color: #667eea;"></div>
+                    <p>Carregando notícias...</p>
+                </div>
+            </div>
+            <div class="error-message" id="newsError"></div>
+        </div>
+
+        <div class="posts-grid" id="postsGrid">
+            <!-- Posts serão inseridos aqui -->
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <h3>Nenhum post adicionado</h3>
+            <p>Cole a URL de um post do Instagram acima para começar!</p>
+        </div>
+    </div>
+
+    <script>
+        // Carregar posts salvos do localStorage
+        let posts = JSON.parse(localStorage.getItem('instagramPosts') || '[]');
+
+        // Posts de exemplo (apenas se estiver vazio)
+        if (posts.length === 0) {
+            posts = [
+                // Adicione URLs de exemplo aqui se desejar
+                // 'https://www.instagram.com/p/EXEMPLO/'
+            ];
+        }
+
+        // URLs de notícias automotivas brasileiras
+        const NEWS_SOURCES = [
+            {
+                name: 'AutoPapo',
+                url: 'https://autopapo.com.br/',
+                rssUrl: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://feeds.feedburner.com/autopapo')
+            }
+        ];
+
+        // Renderizar posts e carregar notícias ao carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPosts();
+            loadNews();
+        });
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                addPost();
+            }
+        }
+
+        function isValidInstagramUrl(url) {
+            const pattern = /^https?:\/\/(www\.)?instagram\.com\/(p|reel|tv)\/[a-zA-Z0-9_-]+/;
+            return pattern.test(url);
+        }
+
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            errorMsg.textContent = message;
+            errorMsg.classList.add('show');
+            successMsg.classList.remove('show');
+            setTimeout(() => errorMsg.classList.remove('show'), 5000);
+        }
+
+        function showSuccess(message) {
+            const successMsg = document.getElementById('successMsg');
+            const errorMsg = document.getElementById('errorMsg');
+            successMsg.textContent = message;
+            successMsg.classList.add('show');
+            errorMsg.classList.remove('show');
+            setTimeout(() => successMsg.classList.remove('show'), 3000);
+        }
+
+        function getEmbedUrl(postUrl) {
+            // Remover parâmetros de query se houver
+            const cleanUrl = postUrl.split('?')[0];
+            // Garantir que termina com /
+            const urlWithSlash = cleanUrl.endsWith('/') ? cleanUrl : cleanUrl + '/';
+            // Adicionar /embed no final
+            return urlWithSlash + 'embed/';
+        }
+
+        function addPost() {
+            const input = document.getElementById('postUrl');
+            const url = input.value.trim();
+
+            if (!url) {
+                showError('Por favor, insira uma URL válida.');
+                return;
+            }
+
+            if (!isValidInstagramUrl(url)) {
+                showError('URL inválida! Use o formato: https://www.instagram.com/p/... ou /reel/...');
+                return;
+            }
+
+            if (posts.includes(url)) {
+                showError('Este post já foi adicionado!');
+                return;
+            }
+
+            posts.unshift(url);
+            savePosts();
+            renderPosts();
+            input.value = '';
+            reprocessEmbeds();
+            showSuccess('Post adicionado com sucesso!');
+        }
+
+        function savePosts() {
+            localStorage.setItem('instagramPosts', JSON.stringify(posts));
+        }
+
+        function renderPosts() {
+            const grid = document.getElementById('postsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (posts.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            grid.innerHTML = posts.map(url => {
+                const embedUrl = getEmbedUrl(url);
+                const postId = url.split('/').filter(Boolean).pop();
+
+                return `
+                    <div class="post-card">
+                        <blockquote
+                            class="instagram-media"
+                            data-instgrm-permalink="${url}"
+                            data-instgrm-version="14"
+                            style="background:#FFF; border:0; border-radius:8px; margin: 1px; max-width:540px; min-width:326px; padding:0; width:100%;"
+                        >
+                            <a href="${url}" target="_blank">Ver post no Instagram</a>
+                        </blockquote>
+                    </div>
+                `;
+            }).join('');
+
+            // Carregar o script do Instagram embed
+            loadInstagramEmbed();
+        }
+
+        function loadInstagramEmbed() {
+            // Remover script existente se houver
+            const existingScript = document.getElementById('instagram-embed-script');
+            if (existingScript) {
+                existingScript.remove();
+            }
+
+            // Criar novo script com URL absoluta HTTPS
+            const script = document.createElement('script');
+            script.id = 'instagram-embed-script';
+            script.src = 'https://www.instagram.com/embed.js';
+            script.async = true;
+            script.onload = function() {
+                // Processar embeds após o script carregar
+                if (window.instgrm && window.instgrm.Embeds) {
+                    window.instgrm.Embeds.process();
+                }
+            };
+            document.body.appendChild(script);
+        }
+
+        function reprocessEmbeds() {
+            // Re-processar embeds para posts adicionados dinamicamente
+            if (window.instgrm && window.instgrm.Embeds) {
+                setTimeout(() => window.instgrm.Embeds.process(), 100);
+            }
+        }
+
+        // Função para carregar notícias automotivas
+        async function loadNews() {
+            const newsContainer = document.getElementById('newsContainer');
+            const newsLoading = document.getElementById('newsLoading');
+            const newsError = document.getElementById('newsError');
+
+            try {
+                // Buscar notícias de múltiplos feeds
+                const feedPromises = NEWS_SOURCES.map(source => 
+                    fetch(source.rssUrl)
+                        .then(res => res.json())
+                        .then(data => ({
+                            ...data,
+                            items: (data.items || []).map(item => ({
+                                ...item,
+                                _source: source.name,
+                                _sourceUrl: source.url
+                            }))
+                        }))
+                        .catch(() => ({ items: [] }))
+                );
+
+                const results = await Promise.all(feedPromises);
+
+                // Combinar todos os itens
+                let allNews = results
+                    .flatMap(r => r.items || [])
+                    .filter(item => item && item.title && item.link);
+
+                // Se não encontrou notícias via RSS, usa notícias pré-definidas
+                if (allNews.length === 0) {
+                    allNews = [
+                        {
+                            title: 'Veja as últimas notícias automotivas',
+                            description: 'Acompanhe as novidades do mundo automotivo nos principais portais do Brasil.',
+                            link: 'https://motor1.uol.com.br/',
+                            pubDate: new Date().toISOString(),
+                            _source: 'Motor1 Brasil',
+                            _sourceUrl: 'https://motor1.uol.com.br/'
+                        },
+                        {
+                            title: 'Dicas de manutenção preventiva',
+                            description: 'Saiba como cuidar do seu carro e evitar problemas mecânicos.',
+                            link: 'https://autopapo.com.br/',
+                            pubDate: new Date().toISOString(),
+                            _source: 'AutoPapo',
+                            _sourceUrl: 'https://autopapo.com.br/'
+                        },
+                        {
+                            title: 'Recalls e segurança veicular',
+                            description: 'Fique atento aos recalls e dicas de segurança para seu veículo.',
+                            link: 'https://www.gov.br/infraestrutura/pt-br/assuntos/transportes/veiculos/seguranca-veicular',
+                            pubDate: new Date().toISOString(),
+                            _source: 'Gov.br',
+                            _sourceUrl: 'https://www.gov.br/infraestrutura/pt-br/assuntos/transportes/veiculos/seguranca-veicular'
+                        }
+                    ];
+                }
+
+                // Remover duplicatas (baseado no título)
+                const seen = new Set();
+                allNews = allNews.filter(item => {
+                    const normalizedTitle = item.title.toLowerCase().trim();
+                    if (seen.has(normalizedTitle)) return false;
+                    seen.add(normalizedTitle);
+                    return true;
+                });
+
+                // Filtrar apenas notícias dos últimos 14 dias
+                const fourteenDaysAgo = new Date();
+                fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+                
+                const recentNews = allNews.filter(item => {
+                    if (!item.pubDate) return true;
+                    const pubDate = new Date(item.pubDate);
+                    return pubDate >= fourteenDaysAgo;
+                });
+
+                // Ordenar por data (mais recentes primeiro)
+                recentNews.sort((a, b) => {
+                    if (!a.pubDate) return 1;
+                    if (!b.pubDate) return -1;
+                    return new Date(b.pubDate) - new Date(a.pubDate);
+                });
+
+                // Esconder loading
+                newsLoading.style.display = 'none';
+
+                // Renderizar notícias (máximo 6)
+                const newsHTML = recentNews.slice(0, 6).map(item => {
+                    const date = item.pubDate ? new Date(item.pubDate) : null;
+                    let formattedDate = 'Recente';
+                    
+                    if (date) {
+                        const now = new Date();
+                        const diffTime = Math.abs(now - date);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        
+                        if (diffDays === 0) {
+                            formattedDate = 'Hoje';
+                        } else if (diffDays === 1) {
+                            formattedDate = 'Ontem';
+                        } else if (diffDays < 7) {
+                            formattedDate = `${diffDays} dias atrás`;
+                        } else {
+                            formattedDate = date.toLocaleDateString('pt-BR', {
+                                day: '2-digit',
+                                month: 'short'
+                            });
+                        }
+                    }
+
+                    // Extrair nome da fonte
+                    const source = item._source || 'Automotivo';
+                    const sourceInitial = source.charAt(0).toUpperCase();
+
+                    // Limpar descrição
+                    let description = '';
+                    if (item.description) {
+                        description = item.description.replace(/<[^>]*>/g, '').substring(0, 150);
+                        if (item.description.length > 150) description += '...';
+                    } else if (item.content) {
+                        description = item.content.replace(/<[^>]*>/g, '').substring(0, 150) + '...';
+                    }
+
+                    // Verificar se tem imagem/thumbnail
+                    let imageHTML = '';
+                    const imageUrl = item.thumbnail || item.enclosure?.link || item.image;
+                    
+                    if (imageUrl) {
+                        imageHTML = `<img class="news-image" src="${imageUrl}" alt="" onerror="this.outerHTML='<div class=\\'news-image-placeholder\\'><svg xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'2\\' d=\\'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z\\' /></svg></div>'">`;
+                    } else {
+                        imageHTML = `
+                            <div class="news-image-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                </svg>
+                            </div>
+                        `;
+                    }
+
+                    return `
+                        <div class="news-card">
+                            ${imageHTML}
+                            <div class="news-content">
+                                <h3>
+                                    <a href="${item.link}" target="_blank" rel="noopener noreferrer">
+                                        ${item.title}
+                                    </a>
+                                </h3>
+                                ${description ? `<p>${description}</p>` : ''}
+                                <div class="news-footer">
+                                    <div class="news-source-badge">
+                                        <div class="source-icon">${sourceInitial}</div>
+                                        <span class="source-name">${source}</span>
+                                    </div>
+                                    <div class="news-date">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        ${formattedDate}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                newsContainer.innerHTML = newsHTML;
+
+            } catch (error) {
+                console.error('Erro ao carregar notícias:', error);
+                newsLoading.style.display = 'none';
+                newsError.textContent = '⚠️ Não foi possível carregar as notícias. Tente novamente mais tarde.';
+                newsError.classList.add('show');
+            }
+        }
+    </script>
+</body>
+</html>
