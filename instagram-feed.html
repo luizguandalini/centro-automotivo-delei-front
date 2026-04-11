@@ -1,748 +1,1763 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro Automotivo de Lei - Instagram</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centro Automotivo Delei</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      :root {
+        --black: #0a0a0a;
+        --white: #ffffff;
+        --red: #e53935;
+        --red-hover: #c62828;
+        --gray-100: #f5f5f5;
+        --gray-200: #eeeeee;
+        --gray-300: #e0e0e0;
+        --gray-500: #9e9e9e;
+        --gray-700: #424242;
+        --gray-900: #212121;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: var(--white);
+        color: var(--black);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* ===== NAVBAR ===== */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 1.5rem 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: var(--transition);
+        background: transparent;
+      }
+
+      .navbar.scrolled {
+        background: var(--white);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        padding: 1rem 3rem;
+      }
+
+      .navbar-logo img {
+        height: 50px;
+        transition: var(--transition);
+      }
+
+      .navbar.scrolled .navbar-logo img {
+        height: 40px;
+      }
+
+      .navbar-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .navbar-links a {
+        color: var(--white);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: var(--transition);
+      }
+
+      .navbar.scrolled .navbar-links a {
+        color: var(--black);
+      }
+
+      .navbar-links a:hover {
+        color: var(--red);
+      }
+
+      .navbar-cta {
+        background: var(--red) !important;
+        color: var(--white) !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 4px !important;
+        font-weight: 600 !important;
+      }
+
+      .navbar-cta:hover {
+        background: var(--red-hover) !important;
+      }
+
+      /* ===== HERO ===== */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        background: var(--black);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.7) 100%
+        );
+        z-index: 1;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900"><rect fill="%23111" width="1440" height="900"/></svg>');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 2rem;
+        max-width: 900px;
+      }
+
+      /* ===== HERO LOGO SVG ===== */
+      .hero-logo-svg {
+        width: 220px;
+        height: 220px;
+        margin: 0 auto 2rem;
+        display: block;
+        animation: logoEntrance 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        opacity: 0;
+      }
+
+      @keyframes logoEntrance {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .hero-logo-svg .levitate-group {
+        animation: levitate 4s ease-in-out infinite;
+      }
+
+      @keyframes levitate {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      .hero-logo-svg .pulse-ring {
+        transform-origin: center;
+        animation: pulseRing 3s ease-out infinite;
+      }
+
+      @keyframes pulseRing {
+        0% {
+          transform: scale(0.8);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(2.2);
+          opacity: 0;
+        }
+      }
+
+      .hero-logo-svg .pulse-ring-2 {
+        animation-delay: 1s;
+      }
+
+      .hero-logo-svg .pulse-ring-3 {
+        animation-delay: 2s;
+      }
+
+      .hero-logo-svg .rotating-ring {
+        transform-origin: center;
+        animation: rotateRing 20s linear infinite;
+      }
+
+      @keyframes rotateRing {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .hero-logo-svg .rotating-ring-reverse {
+        transform-origin: center;
+        animation: rotateRingReverse 25s linear infinite;
+      }
+
+      @keyframes rotateRingReverse {
+        0% {
+          transform: rotate(360deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+
+      .hero-logo-svg .glow-circle {
+        animation: glowPulse 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes glowPulse {
+        0% {
+          filter: drop-shadow(0 0 15px rgba(229, 57, 53, 0.4));
+        }
+        100% {
+          filter: drop-shadow(0 0 40px rgba(229, 57, 53, 0.8));
+        }
+      }
+
+      .hero-logo-svg .orbit-dot {
+        animation: orbitDot 8s linear infinite;
+      }
+
+      .hero-logo-svg .orbit-dot-2 {
+        animation: orbitDot 8s linear infinite;
+        animation-delay: -2s;
+      }
+
+      .hero-logo-svg .orbit-dot-3 {
+        animation: orbitDot 8s linear infinite;
+        animation-delay: -4s;
+      }
+
+      .hero-logo-svg .orbit-dot-4 {
+        animation: orbitDot 8s linear infinite;
+        animation-delay: -6s;
+      }
+
+      @keyframes orbitDot {
+        0% {
+          transform: rotate(0deg) translateX(95px) rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg) translateX(95px) rotate(-360deg);
+        }
+      }
+
+      .hero-logo-svg .sparkle {
+        animation: sparkle 2s ease-in-out infinite;
+      }
+
+      .hero-logo-svg .sparkle-2 {
+        animation-delay: 0.5s;
+      }
+
+      .hero-logo-svg .sparkle-3 {
+        animation-delay: 1s;
+      }
+
+      .hero-logo-svg .sparkle-4 {
+        animation-delay: 1.5s;
+      }
+
+      @keyframes sparkle {
+        0%,
+        100% {
+          opacity: 0.2;
+          transform: scale(0.8);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
+
+      .hero-logo-svg .speed-line {
+        animation: speedLine 2s ease-in-out infinite;
+      }
+
+      .hero-logo-svg .speed-line-2 {
+        animation-delay: 0.3s;
+      }
+
+      .hero-logo-svg .speed-line-3 {
+        animation-delay: 0.6s;
+      }
+
+      .hero-logo-svg .speed-line-4 {
+        animation-delay: 0.9s;
+      }
+
+      @keyframes speedLine {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scaleX(0.5);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scaleX(1);
+        }
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-weight: 900;
+        color: var(--white);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+      }
+
+      .hero h1 span {
+        color: var(--red);
+      }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
+        font-weight: 400;
+      }
+
+      .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .hero-stat {
+        text-align: center;
+      }
+
+      .hero-stat .number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--red);
+        line-height: 1;
+      }
+
+      .hero-stat .label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 0.5rem;
+      }
+
+      .hero-scroll {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        color: var(--white);
+        text-decoration: none;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        40% {
+          transform: translateX(-50%) translateY(-10px);
+        }
+        60% {
+          transform: translateX(-50%) translateY(-5px);
+        }
+      }
+
+      /* ===== BUTTONS ===== */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .btn-primary {
+        background: var(--red);
+        color: var(--white);
+      }
+
+      .btn-primary:hover {
+        background: var(--red-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(229, 57, 53, 0.4);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--black);
+        border: 2px solid var(--black);
+      }
+
+      .btn-outline:hover {
+        background: var(--black);
+        color: var(--white);
+      }
+
+      /* ===== SECTIONS ===== */
+      .section {
+        padding: 6rem 3rem;
+      }
+
+      .section-dark {
+        background: var(--black);
+        color: var(--white);
+      }
+
+      .section-gray {
+        background: var(--gray-100);
+      }
+
+      .section-header {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto 4rem;
+      }
+
+      .section-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .section-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      .section-desc {
+        font-size: 1.1rem;
+        color: var(--gray-500);
+      }
+
+      .section-dark .section-desc {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      /* ===== INSTAGRAM SECTION ===== */
+      .instagram-section {
+        padding: 6rem 3rem;
+        background: var(--gray-100);
+      }
+
+      .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .post-card {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: var(--transition);
+      }
+
+      .post-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      .post-card iframe {
+        border: none;
+        border-radius: 8px;
+      }
+
+      /* ===== NEWS SECTION ===== */
+      .news-section {
+        padding: 6rem 3rem;
+        background: var(--white);
+      }
+
+      .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .news-card {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--gray-200);
+      }
+
+      .news-card:hover {
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        transform: translateY(-4px);
+      }
+
+      .news-card .news-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: var(--gray-200);
+      }
+
+      .news-card .news-image-placeholder {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(
+          135deg,
+          var(--gray-200) 0%,
+          var(--gray-300) 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .news-card .news-image-placeholder svg {
+        width: 48px;
+        height: 48px;
+        color: var(--gray-500);
+      }
+
+      .news-card .news-content {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .news-card h3 {
+        font-size: 1.05rem;
+        color: var(--black);
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+        font-weight: 700;
+      }
+
+      .news-card h3 a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .news-card h3 a:hover {
+        color: var(--red);
+      }
+
+      .news-card p {
+        font-size: 0.9rem;
+        color: var(--gray-500);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .news-card .news-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px solid var(--gray-200);
+      }
+
+      .news-card .news-source-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .news-card .source-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: 1px solid var(--gray-200);
+      }
+
+      .news-card .source-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .news-card .source-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--black);
+      }
+
+      .news-card .news-date {
+        font-size: 0.8rem;
+        color: var(--gray-500);
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 3rem;
+      }
+
+      .spinner {
+        border: 4px solid var(--gray-200);
+        border-top: 4px solid var(--red);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 1rem;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ===== CONTACT SECTION ===== */
+      .contact-section {
+        padding: 6rem 3rem;
+        background: var(--gray-100);
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      /* ===== WHATSAPP FLOAT ===== */
+      .whatsapp-float {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 999;
+        width: 60px;
+        height: 60px;
+        background: #25d366;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .whatsapp-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+      }
+
+      .whatsapp-float svg {
+        width: 32px;
+        height: 32px;
+        fill: white;
+      }
+
+      /* ===== HOURS CARD ===== */
+      .hours-card {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: var(--transition);
+      }
+
+      .hours-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      .hours-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem;
+        background: var(--red);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hours-icon svg {
+        width: 28px;
+        height: 28px;
+        color: var(--white);
+      }
+
+      .hours-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .hours-list {
+        list-style: none;
+        text-align: left;
+      }
+
+      .hours-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--gray-200);
+        font-size: 0.9rem;
+      }
+
+      .hours-list li:last-child {
+        border-bottom: none;
+      }
+
+      .hours-list .day {
+        color: var(--gray-700);
+        font-weight: 500;
+      }
+
+      .hours-list .time {
+        color: var(--gray-500);
+      }
+
+      .hours-list .closed {
+        color: var(--red);
+        font-weight: 600;
+      }
+
+      .hours-status {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+      }
+
+      .hours-status.open {
+        background: #f0fff4;
+        color: #2ed573;
+      }
+
+      .hours-status.closed {
+        background: #fff3f3;
+        color: var(--red);
+      }
+
+      .contact-card {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: var(--transition);
+      }
+
+      .contact-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      .contact-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem;
+        background: var(--red);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .contact-icon svg {
+        width: 28px;
+        height: 28px;
+        color: var(--white);
+      }
+
+      .contact-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .contact-card p {
+        font-size: 0.95rem;
+        color: var(--gray-500);
+      }
+
+      .contact-card a {
+        color: var(--red);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .contact-card a:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== FOOTER ===== */
+      .footer {
+        background: var(--black);
+        color: var(--white);
+        padding: 4rem 3rem 2rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 3rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-brand img {
+        height: 60px;
+        margin-bottom: 1rem;
+      }
+
+      .footer-brand p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .footer h4 {
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.75rem;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--red);
+      }
+
+      .footer-bottom {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .footer-bottom p {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.85rem;
+      }
+
+      .footer-social {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .footer-social a {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-social a:hover {
+        background: var(--red);
+        border-color: var(--red);
+        color: var(--white);
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 1.5rem;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 2rem 1rem;
+        .navbar.scrolled {
+          padding: 0.75rem 1.5rem;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .navbar-links {
+          display: none;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 2rem;
+        .hero-scroll {
+          display: none;
         }
 
-        header h1 {
-            color: white;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        .section {
+          padding: 4rem 1.5rem;
         }
 
-        header p {
-            color: rgba(255,255,255,0.9);
-            font-size: 1.1rem;
+        .instagram-section,
+        .news-section,
+        .contact-section {
+          padding: 4rem 1.5rem;
         }
 
-        header a {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: 600;
+        .hero-stats {
+          flex-direction: column;
+          gap: 1.5rem;
         }
 
-        header a:hover {
-            text-decoration: underline;
-        }
-
-        .add-post-section {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .add-post-section h2 {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 1rem;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .input-group input {
-            flex: 1;
-            min-width: 250px;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            transition: border-color 0.3s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .input-group input::placeholder {
-            color: #aaa;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-danger {
-            background: #ff4757;
-            color: white;
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-
-        .btn-danger:hover {
-            background: #ff3838;
-        }
-
-        .posts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .post-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            position: relative;
-            transition: transform 0.3s;
-        }
-
-        .post-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .post-card iframe {
-            border: none;
-            border-radius: 8px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: rgba(255,255,255,0.8);
-        }
-
-        .empty-state svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .empty-state h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .empty-state p {
-            font-size: 0.95rem;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: white;
-        }
-
-        .spinner {
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            background: #fff3f3;
-            border: 1px solid #ff4757;
-            color: #ff4757;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin-top: 0.75rem;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        .success-message {
-            background: #f0fff4;
-            border: 1px solid #2ed573;
-            color: #2ed573;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin-top: 0.75rem;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
-
-            .posts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .news-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .input-group {
-                flex-direction: column;
-            }
-
-            .input-group input {
-                min-width: 100%;
-            }
-        }
-
+        .posts-grid,
         .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
+          grid-template-columns: 1fr;
         }
 
-        .news-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
+        .whatsapp-float {
+          bottom: 1rem;
+          right: 1rem;
+          width: 50px;
+          height: 50px;
         }
 
-        .news-card:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            transform: translateY(-3px);
+        .footer-content {
+          grid-template-columns: 1fr;
         }
 
-        .news-card .news-image {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
         }
-
-        .news-card .news-image-placeholder {
-            width: 100%;
-            height: 160px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .news-card .news-image-placeholder svg {
-            width: 48px;
-            height: 48px;
-            color: rgba(255,255,255,0.6);
-        }
-
-        .news-card .news-content {
-            padding: 1.25rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .news-card h3 {
-            font-size: 1rem;
-            color: #1a1a2e;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-            font-weight: 600;
-        }
-
-        .news-card h3 a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .news-card h3 a:hover {
-            color: #667eea;
-        }
-
-        .news-card p {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-            flex: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .news-card .news-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 0.75rem;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .news-card .news-source-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .news-card .source-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #667eea;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: white;
-            font-weight: 700;
-        }
-
-        .news-card .source-name {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .news-card .news-date {
-            font-size: 0.75rem;
-            color: #999;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
+      }
     </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>📸 Centro Automotivo de Lei</h1>
-            <p>Posts recentes do Instagram • <a href="https://www.instagram.com/centroautomotivodelei" target="_blank" rel="noopener noreferrer">@centroautomotivodelei</a></p>
-        </header>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+      <a href="#" class="navbar-logo">
+        <img src="logo.png" alt="Centro Automotivo de Lei" />
+      </a>
+      <div class="navbar-links">
+        <a href="#instagram">Instagram</a>
+        <a href="#noticias">Notícias</a>
+        <a href="#contato">Contato</a>
+        <a href="https://wa.me/551633843140" target="_blank" class="navbar-cta"
+          >WhatsApp</a
+        >
+      </div>
+    </nav>
 
-        <div class="add-post-section">
-            <h2>➕ Adicionar Post do Instagram</h2>
-            <div class="input-group">
-                <input 
-                    type="url" 
-                    id="postUrl" 
-                    placeholder="Cole a URL do post do Instagram aqui..."
-                    onkeypress="handleKeyPress(event)"
-                >
-                <button class="btn btn-primary" onclick="addPost()">Adicionar Post</button>
-            </div>
-            <div class="error-message" id="errorMsg"></div>
-            <div class="success-message" id="successMsg"></div>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <svg
+          class="hero-logo-svg"
+          viewBox="0 0 220 220"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur
+                in="SourceGraphic"
+                stdDeviation="4"
+                result="blur"
+              />
+              <feFlood
+                flood-color="#e53935"
+                flood-opacity="0.5"
+                result="color"
+              />
+              <feComposite in="color" in2="blur" operator="in" result="glow" />
+              <feMerge>
+                <feMergeNode in="glow" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Pulse rings -->
+          <circle
+            class="pulse-ring"
+            cx="110"
+            cy="110"
+            r="50"
+            fill="none"
+            stroke="#e53935"
+            stroke-width="2"
+            opacity="0"
+          />
+          <circle
+            class="pulse-ring pulse-ring-2"
+            cx="110"
+            cy="110"
+            r="50"
+            fill="none"
+            stroke="#e53935"
+            stroke-width="1.5"
+            opacity="0"
+          />
+          <circle
+            class="pulse-ring pulse-ring-3"
+            cx="110"
+            cy="110"
+            r="50"
+            fill="none"
+            stroke="#e53935"
+            stroke-width="1"
+            opacity="0"
+          />
+
+          <!-- Rotating rings -->
+          <g class="rotating-ring">
+            <circle
+              cx="110"
+              cy="110"
+              r="95"
+              fill="none"
+              stroke="#e53935"
+              stroke-width="1"
+              stroke-dasharray="4 8"
+              opacity="0.4"
+            />
+            <circle
+              cx="110"
+              cy="110"
+              r="85"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="0.5"
+              stroke-dasharray="2 6"
+              opacity="0.2"
+            />
+          </g>
+          <g class="rotating-ring-reverse">
+            <circle
+              cx="110"
+              cy="110"
+              r="105"
+              fill="none"
+              stroke="#e53935"
+              stroke-width="0.5"
+              stroke-dasharray="3 12"
+              opacity="0.3"
+            />
+          </g>
+
+          <!-- Orbit dots -->
+          <g class="orbit-dot">
+            <circle cx="110" cy="110" r="3" fill="#e53935" opacity="0.8" />
+          </g>
+          <g class="orbit-dot orbit-dot-2">
+            <circle cx="110" cy="110" r="2.5" fill="#ffffff" opacity="0.6" />
+          </g>
+          <g class="orbit-dot orbit-dot-3">
+            <circle cx="110" cy="110" r="2" fill="#e53935" opacity="0.7" />
+          </g>
+          <g class="orbit-dot orbit-dot-4">
+            <circle cx="110" cy="110" r="2.5" fill="#ffffff" opacity="0.5" />
+          </g>
+
+          <!-- Sparkles -->
+          <g class="sparkle" transform="translate(110, 25)">
+            <path
+              d="M0,-6 L1.5,-1.5 L6,0 L1.5,1.5 L0,6 L-1.5,1.5 L-6,0 L-1.5,-1.5 Z"
+              fill="#e53935"
+              opacity="0.8"
+            />
+          </g>
+          <g class="sparkle sparkle-2" transform="translate(185, 80)">
+            <path
+              d="M0,-4 L1,-1 L4,0 L1,1 L0,4 L-1,1 L-4,0 L-1,-1 Z"
+              fill="#ffffff"
+              opacity="0.6"
+            />
+          </g>
+          <g class="sparkle sparkle-3" transform="translate(35, 75)">
+            <path
+              d="M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z"
+              fill="#e53935"
+              opacity="0.7"
+            />
+          </g>
+          <g class="sparkle sparkle-4" transform="translate(155, 175)">
+            <path
+              d="M0,-4 L1,-1 L4,0 L1,1 L0,4 L-1,1 L-4,0 L-1,-1 Z"
+              fill="#ffffff"
+              opacity="0.5"
+            />
+          </g>
+
+          <!-- Speed lines -->
+          <g class="speed-line" transform="translate(110, 15)">
+            <line
+              x1="-15"
+              y1="0"
+              x2="-5"
+              y2="0"
+              stroke="#e53935"
+              stroke-width="1.5"
+              opacity="0.6"
+            />
+          </g>
+          <g class="speed-line speed-line-2" transform="translate(190, 110)">
+            <line
+              x1="-15"
+              y1="0"
+              x2="-5"
+              y2="0"
+              stroke="#ffffff"
+              stroke-width="1"
+              opacity="0.4"
+              transform="rotate(90)"
+            />
+          </g>
+          <g class="speed-line speed-line-3" transform="translate(30, 110)">
+            <line
+              x1="-15"
+              y1="0"
+              x2="-5"
+              y2="0"
+              stroke="#ffffff"
+              stroke-width="1"
+              opacity="0.4"
+              transform="rotate(90)"
+            />
+          </g>
+          <g class="speed-line speed-line-4" transform="translate(110, 195)">
+            <line
+              x1="-15"
+              y1="0"
+              x2="-5"
+              y2="0"
+              stroke="#e53935"
+              stroke-width="1.5"
+              opacity="0.6"
+              transform="rotate(180)"
+            />
+          </g>
+
+          <!-- Main logo with levitation -->
+          <g class="levitate-group">
+            <!-- Glow circle background -->
+            <g class="glow-circle">
+              <circle
+                cx="110"
+                cy="110"
+                r="55"
+                fill="#ffffff"
+                filter="url(#softGlow)"
+              />
+            </g>
+
+            <!-- Actual logo -->
+            <image
+              href="logo-convertida.svg"
+              x="55"
+              y="78"
+              width="110"
+              height="65"
+              preserveAspectRatio="xMidYMid meet"
+            />
+          </g>
+        </svg>
+        <h1>Seu carro em <span>boas mãos</span></h1>
+        <p class="hero-subtitle">
+          Profissionais qualificados • Atendimento transparente • Diagnóstico
+          preciso
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="number">100%</div>
+            <div class="label">Transparência</div>
+          </div>
+          <div class="hero-stat">
+            <div class="number">24h</div>
+            <div class="label">Diagnóstico</div>
+          </div>
+          <div class="hero-stat">
+            <div class="number">★ 5.0</div>
+            <div class="label">Avaliação</div>
+          </div>
         </div>
+      </div>
+      <a href="#instagram" class="hero-scroll">
+        Scroll
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+    </section>
 
-        <div class="add-post-section">
-            <h2>📰 Notícias Automotivas</h2>
-            <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Últimas notícias sobre carros, manutenção e segurança</p>
-            <div id="newsContainer" class="news-grid">
-                <div class="loading" id="newsLoading">
-                    <div class="spinner" style="border-color: rgba(102,126,234,0.3); border-top-color: #667eea;"></div>
-                    <p>Carregando notícias...</p>
-                </div>
-            </div>
-            <div class="error-message" id="newsError"></div>
+    <!-- INSTAGRAM -->
+    <section class="instagram-section" id="instagram">
+      <div class="section-header">
+        <span class="section-label">Instagram</span>
+        <h2 class="section-title">Siga nosso trabalho</h2>
+        <p class="section-desc">
+          Acompanhe nosso dia a dia e veja os resultados do nosso serviço
+        </p>
+      </div>
+
+      <div class="posts-grid" id="postsGrid"></div>
+    </section>
+
+    <!-- NOTÍCIAS -->
+    <section class="news-section" id="noticias">
+      <div class="section-header">
+        <span class="section-label">Notícias</span>
+        <h2 class="section-title">Fique por dentro</h2>
+        <p class="section-desc">
+          Últimas novidades do mundo automotivo, manutenção e segurança
+        </p>
+      </div>
+
+      <div class="news-grid" id="newsContainer">
+        <div class="loading" id="newsLoading">
+          <div class="spinner"></div>
+          <p style="color: var(--gray-500)">Carregando notícias...</p>
         </div>
+      </div>
+      <div
+        class="error-message"
+        id="newsError"
+        style="max-width: 1200px; margin: 0 auto"
+      ></div>
+    </section>
 
-        <div class="posts-grid" id="postsGrid">
-            <!-- Posts serão inseridos aqui -->
-        </div>
+    <!-- CONTATO -->
+    <section class="contact-section" id="contato">
+      <div class="section-header">
+        <span class="section-label">Contato</span>
+        <h2 class="section-title">Entre em contato</h2>
+        <p class="section-desc">Estamos prontos para cuidar do seu veículo</p>
+      </div>
 
-        <div class="empty-state" id="emptyState">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      <div class="contact-grid">
+        <div class="hours-card">
+          <div class="hours-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
-            <h3>Nenhum post adicionado</h3>
-            <p>Cole a URL de um post do Instagram acima para começar!</p>
+          </div>
+          <h3>Horário de Funcionamento</h3>
+          <ul class="hours-list">
+            <li>
+              <span class="day">Segunda a Sexta</span
+              ><span class="time">08:00 – 12:00 | 13:30 – 18:00</span>
+            </li>
+            <li>
+              <span class="day">Sábado</span
+              ><span class="time closed">Fechado</span>
+            </li>
+            <li>
+              <span class="day">Domingo</span
+              ><span class="time closed">Fechado</span>
+            </li>
+          </ul>
+          <div class="hours-status" id="hoursStatus"></div>
         </div>
-    </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <h3>Endereço</h3>
+          <p>
+            <a
+              href="https://www.google.com/maps/search/Av.+Prefeito+Laerte+José+Taralo+Mendes,+1053+-+Jardim+Pereira,+Matão+-+SP"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Av. Pref. Laerte José Taralo Mendes, 1053<br />Jardim Pereira —
+              Matão/SP</a
+            >
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+              />
+            </svg>
+          </div>
+          <h3>WhatsApp</h3>
+          <p>
+            <a href="https://wa.me/551633843140" target="_blank"
+              >(16) 3384-3140</a
+            >
+          </p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem">
+            Clique para iniciar uma conversa
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </div>
+          <h3>Instagram</h3>
+          <p>
+            <a
+              href="https://www.instagram.com/centroautomotivodelei"
+              target="_blank"
+              >@centroautomotivodelei</a
+            >
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="logo.png" alt="Centro Automotivo de Lei" />
+          <p>
+            Cuidamos do seu veículo com atenção e experiência. Profissionais
+            qualificados, atendimento transparente e diagnóstico preciso.
+          </p>
+        </div>
+        <div>
+          <h4>Navegação</h4>
+          <ul class="footer-links">
+            <li><a href="#instagram">Instagram</a></li>
+            <li><a href="#noticias">Notícias</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <ul class="footer-links">
+            <li>
+              <a href="https://wa.me/551633843140" target="_blank"
+                >(16) 3384-3140</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/centroautomotivodelei"
+                target="_blank"
+                >@centroautomotivodelei</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Centro Automotivo de Lei. Todos os direitos reservados.</p>
+        <div class="footer-social">
+          <a
+            href="https://www.instagram.com/centroautomotivodelei"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a
+            href="https://wa.me/551633843140"
+            target="_blank"
+            aria-label="WhatsApp"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- WHATSAPP FLOAT -->
+    <a
+      href="https://wa.me/551633843140"
+      target="_blank"
+      class="whatsapp-float"
+      aria-label="WhatsApp"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+        />
+      </svg>
+    </a>
 
     <script>
-        // Carregar posts salvos do localStorage
-        let posts = JSON.parse(localStorage.getItem('instagramPosts') || '[]');
+      // ===== NAVBAR SCROLL =====
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 100) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
 
-        // Posts de exemplo (apenas se estiver vazio)
-        if (posts.length === 0) {
-            posts = [
-                // Adicione URLs de exemplo aqui se desejar
-                // 'https://www.instagram.com/p/EXEMPLO/'
+      // ===== HOURS STATUS =====
+      function updateHoursStatus() {
+        const statusEl = document.getElementById("hoursStatus");
+        if (!statusEl) return;
+
+        const now = new Date();
+        const day = now.getDay(); // 0=Dom, 1=Seg, ..., 5=Sex, 6=Sab
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const time = hour * 60 + minute; // minutos desde meia-noite
+
+        const isOpen =
+          day >= 1 &&
+          day <= 5 &&
+          ((time >= 480 && time < 720) || (time >= 810 && time < 1080));
+
+        statusEl.className = "hours-status " + (isOpen ? "open" : "closed");
+        statusEl.textContent = isOpen ? "🟢 Aberto agora" : "🔴 Fechado agora";
+      }
+
+      updateHoursStatus();
+      setInterval(updateHoursStatus, 60000); // Atualiza a cada minuto
+
+      // ===== INSTAGRAM POSTS FIXOS =====
+      const posts = [
+        "https://www.instagram.com/p/DW7MiZUCZJ1/",
+        "https://www.instagram.com/p/DWoYqF8krJD/",
+        "https://www.instagram.com/p/DWW4zcFEqVa/",
+      ];
+
+      const NEWS_SOURCES = [
+        {
+          name: "AutoPapo",
+          url: "https://autopapo.com.br/",
+          rssUrl:
+            "https://api.rss2json.com/v1/api.json?rss_url=" +
+            encodeURIComponent("https://feeds.feedburner.com/autopapo"),
+        },
+      ];
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderPosts();
+        loadNews();
+      });
+
+      function renderPosts() {
+        const grid = document.getElementById("postsGrid");
+
+        grid.innerHTML = posts
+          .map(
+            (url) => `
+                <div class="post-card">
+                    <blockquote class="instagram-media" data-instgrm-permalink="${url}" data-instgrm-version="14"
+                        style="background:#FFF; border:0; border-radius:8px; margin:0; max-width:540px; min-width:326px; padding:0; width:100%;">
+                        <a href="${url}" target="_blank">Ver post no Instagram</a>
+                    </blockquote>
+                </div>
+            `,
+          )
+          .join("");
+
+        loadInstagramEmbed();
+      }
+
+      function loadInstagramEmbed() {
+        const existing = document.getElementById("instagram-embed-script");
+        if (existing) existing.remove();
+
+        const script = document.createElement("script");
+        script.id = "instagram-embed-script";
+        script.src = "https://www.instagram.com/embed.js";
+        script.async = true;
+        script.onload = () => {
+          if (window.instgrm?.Embeds) window.instgrm.Embeds.process();
+        };
+        document.body.appendChild(script);
+      }
+
+      // ===== NEWS =====
+      async function loadNews() {
+        const container = document.getElementById("newsContainer");
+        const loading = document.getElementById("newsLoading");
+        const error = document.getElementById("newsError");
+
+        try {
+          const results = await Promise.all(
+            NEWS_SOURCES.map((s) =>
+              fetch(s.rssUrl)
+                .then((r) => r.json())
+                .then((d) => ({
+                  ...d,
+                  items: (d.items || []).map((i) => ({
+                    ...i,
+                    _source: s.name,
+                    _sourceUrl: s.url,
+                  })),
+                }))
+                .catch(() => ({ items: [] })),
+            ),
+          );
+
+          let allNews = results
+            .flatMap((r) => r.items || [])
+            .filter((i) => i?.title && i?.link);
+
+          if (allNews.length === 0) {
+            allNews = [
+              {
+                title: "Veja as últimas notícias automotivas",
+                description: "Acompanhe as novidades do mundo automotivo.",
+                link: "https://motor1.uol.com.br/",
+                pubDate: new Date().toISOString(),
+                _source: "Motor1",
+                _sourceUrl: "https://motor1.uol.com.br/",
+              },
+              {
+                title: "Dicas de manutenção preventiva",
+                description: "Saiba como cuidar do seu carro.",
+                link: "https://autopapo.com.br/",
+                pubDate: new Date().toISOString(),
+                _source: "AutoPapo",
+                _sourceUrl: "https://autopapo.com.br/",
+              },
+              {
+                title: "Recalls e segurança veicular",
+                description: "Fique atento aos recalls.",
+                link: "https://www.gov.br/infraestrutura",
+                pubDate: new Date().toISOString(),
+                _source: "Gov.br",
+                _sourceUrl: "https://www.gov.br",
+              },
             ];
+          }
+
+          const seen = new Set();
+          allNews = allNews.filter((i) => {
+            const t = i.title.toLowerCase().trim();
+            if (seen.has(t)) return false;
+            seen.add(t);
+            return true;
+          });
+
+          loading.style.display = "none";
+
+          // Determinar ícone da fonte
+          const getSourceIcon = (source) => {
+            return `<img src="logo-autopapo.webp" alt="${source}">`;
+          };
+
+          container.innerHTML = allNews
+            .slice(0, 6)
+            .map((item) => {
+              const date = item.pubDate ? new Date(item.pubDate) : null;
+              let formattedDate = "Recente";
+              if (date) {
+                const diff = Math.ceil(Math.abs(new Date() - date) / 864e5);
+                formattedDate =
+                  diff === 0
+                    ? "Hoje"
+                    : diff === 1
+                      ? "Ontem"
+                      : diff < 7
+                        ? `${diff} dias atrás`
+                        : date.toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "short",
+                          });
+              }
+
+              const source = item._source || "Automotivo";
+              let desc = item.description
+                ? item.description.replace(/<[^>]*>/g, "").substring(0, 150)
+                : "";
+              if (item.description?.length > 150) desc += "...";
+
+              const img = item.thumbnail || item.enclosure?.link || item.image;
+              const imgHTML = img
+                ? `<img class="news-image" src="${img}" alt="" onerror="this.outerHTML='<div class=\\'news-image-placeholder\\'><svg xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'2\\' d=\\'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z\\' /></svg></div>'">`
+                : `<div class="news-image-placeholder"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg></div>`;
+
+              return `<div class="news-card">${imgHTML}<div class="news-content"><h3><a href="${item.link}" target="_blank" rel="noopener">${item.title}</a></h3>${desc ? `<p>${desc}</p>` : ""}<div class="news-footer"><div class="news-source-badge"><div class="source-icon">${getSourceIcon(source)}</div><span class="source-name">${source}</span></div><div class="news-date"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>${formattedDate}</div></div></div></div>`;
+            })
+            .join("");
+        } catch (e) {
+          console.error(e);
+          loading.style.display = "none";
+          error.textContent = "⚠️ Não foi possível carregar as notícias.";
+          error.classList.add("show");
         }
-
-        // URLs de notícias automotivas brasileiras
-        const NEWS_SOURCES = [
-            {
-                name: 'AutoPapo',
-                url: 'https://autopapo.com.br/',
-                rssUrl: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://feeds.feedburner.com/autopapo')
-            }
-        ];
-
-        // Renderizar posts e carregar notícias ao carregar
-        document.addEventListener('DOMContentLoaded', () => {
-            renderPosts();
-            loadNews();
-        });
-
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                addPost();
-            }
-        }
-
-        function isValidInstagramUrl(url) {
-            const pattern = /^https?:\/\/(www\.)?instagram\.com\/(p|reel|tv)\/[a-zA-Z0-9_-]+/;
-            return pattern.test(url);
-        }
-
-        function showError(message) {
-            const errorMsg = document.getElementById('errorMsg');
-            const successMsg = document.getElementById('successMsg');
-            errorMsg.textContent = message;
-            errorMsg.classList.add('show');
-            successMsg.classList.remove('show');
-            setTimeout(() => errorMsg.classList.remove('show'), 5000);
-        }
-
-        function showSuccess(message) {
-            const successMsg = document.getElementById('successMsg');
-            const errorMsg = document.getElementById('errorMsg');
-            successMsg.textContent = message;
-            successMsg.classList.add('show');
-            errorMsg.classList.remove('show');
-            setTimeout(() => successMsg.classList.remove('show'), 3000);
-        }
-
-        function getEmbedUrl(postUrl) {
-            // Remover parâmetros de query se houver
-            const cleanUrl = postUrl.split('?')[0];
-            // Garantir que termina com /
-            const urlWithSlash = cleanUrl.endsWith('/') ? cleanUrl : cleanUrl + '/';
-            // Adicionar /embed no final
-            return urlWithSlash + 'embed/';
-        }
-
-        function addPost() {
-            const input = document.getElementById('postUrl');
-            const url = input.value.trim();
-
-            if (!url) {
-                showError('Por favor, insira uma URL válida.');
-                return;
-            }
-
-            if (!isValidInstagramUrl(url)) {
-                showError('URL inválida! Use o formato: https://www.instagram.com/p/... ou /reel/...');
-                return;
-            }
-
-            if (posts.includes(url)) {
-                showError('Este post já foi adicionado!');
-                return;
-            }
-
-            posts.unshift(url);
-            savePosts();
-            renderPosts();
-            input.value = '';
-            reprocessEmbeds();
-            showSuccess('Post adicionado com sucesso!');
-        }
-
-        function savePosts() {
-            localStorage.setItem('instagramPosts', JSON.stringify(posts));
-        }
-
-        function renderPosts() {
-            const grid = document.getElementById('postsGrid');
-            const emptyState = document.getElementById('emptyState');
-
-            if (posts.length === 0) {
-                grid.innerHTML = '';
-                emptyState.style.display = 'block';
-                return;
-            }
-
-            emptyState.style.display = 'none';
-
-            grid.innerHTML = posts.map(url => {
-                const embedUrl = getEmbedUrl(url);
-                const postId = url.split('/').filter(Boolean).pop();
-
-                return `
-                    <div class="post-card">
-                        <blockquote
-                            class="instagram-media"
-                            data-instgrm-permalink="${url}"
-                            data-instgrm-version="14"
-                            style="background:#FFF; border:0; border-radius:8px; margin: 1px; max-width:540px; min-width:326px; padding:0; width:100%;"
-                        >
-                            <a href="${url}" target="_blank">Ver post no Instagram</a>
-                        </blockquote>
-                    </div>
-                `;
-            }).join('');
-
-            // Carregar o script do Instagram embed
-            loadInstagramEmbed();
-        }
-
-        function loadInstagramEmbed() {
-            // Remover script existente se houver
-            const existingScript = document.getElementById('instagram-embed-script');
-            if (existingScript) {
-                existingScript.remove();
-            }
-
-            // Criar novo script com URL absoluta HTTPS
-            const script = document.createElement('script');
-            script.id = 'instagram-embed-script';
-            script.src = 'https://www.instagram.com/embed.js';
-            script.async = true;
-            script.onload = function() {
-                // Processar embeds após o script carregar
-                if (window.instgrm && window.instgrm.Embeds) {
-                    window.instgrm.Embeds.process();
-                }
-            };
-            document.body.appendChild(script);
-        }
-
-        function reprocessEmbeds() {
-            // Re-processar embeds para posts adicionados dinamicamente
-            if (window.instgrm && window.instgrm.Embeds) {
-                setTimeout(() => window.instgrm.Embeds.process(), 100);
-            }
-        }
-
-        // Função para carregar notícias automotivas
-        async function loadNews() {
-            const newsContainer = document.getElementById('newsContainer');
-            const newsLoading = document.getElementById('newsLoading');
-            const newsError = document.getElementById('newsError');
-
-            try {
-                // Buscar notícias de múltiplos feeds
-                const feedPromises = NEWS_SOURCES.map(source => 
-                    fetch(source.rssUrl)
-                        .then(res => res.json())
-                        .then(data => ({
-                            ...data,
-                            items: (data.items || []).map(item => ({
-                                ...item,
-                                _source: source.name,
-                                _sourceUrl: source.url
-                            }))
-                        }))
-                        .catch(() => ({ items: [] }))
-                );
-
-                const results = await Promise.all(feedPromises);
-
-                // Combinar todos os itens
-                let allNews = results
-                    .flatMap(r => r.items || [])
-                    .filter(item => item && item.title && item.link);
-
-                // Se não encontrou notícias via RSS, usa notícias pré-definidas
-                if (allNews.length === 0) {
-                    allNews = [
-                        {
-                            title: 'Veja as últimas notícias automotivas',
-                            description: 'Acompanhe as novidades do mundo automotivo nos principais portais do Brasil.',
-                            link: 'https://motor1.uol.com.br/',
-                            pubDate: new Date().toISOString(),
-                            _source: 'Motor1 Brasil',
-                            _sourceUrl: 'https://motor1.uol.com.br/'
-                        },
-                        {
-                            title: 'Dicas de manutenção preventiva',
-                            description: 'Saiba como cuidar do seu carro e evitar problemas mecânicos.',
-                            link: 'https://autopapo.com.br/',
-                            pubDate: new Date().toISOString(),
-                            _source: 'AutoPapo',
-                            _sourceUrl: 'https://autopapo.com.br/'
-                        },
-                        {
-                            title: 'Recalls e segurança veicular',
-                            description: 'Fique atento aos recalls e dicas de segurança para seu veículo.',
-                            link: 'https://www.gov.br/infraestrutura/pt-br/assuntos/transportes/veiculos/seguranca-veicular',
-                            pubDate: new Date().toISOString(),
-                            _source: 'Gov.br',
-                            _sourceUrl: 'https://www.gov.br/infraestrutura/pt-br/assuntos/transportes/veiculos/seguranca-veicular'
-                        }
-                    ];
-                }
-
-                // Remover duplicatas (baseado no título)
-                const seen = new Set();
-                allNews = allNews.filter(item => {
-                    const normalizedTitle = item.title.toLowerCase().trim();
-                    if (seen.has(normalizedTitle)) return false;
-                    seen.add(normalizedTitle);
-                    return true;
-                });
-
-                // Filtrar apenas notícias dos últimos 14 dias
-                const fourteenDaysAgo = new Date();
-                fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
-                
-                const recentNews = allNews.filter(item => {
-                    if (!item.pubDate) return true;
-                    const pubDate = new Date(item.pubDate);
-                    return pubDate >= fourteenDaysAgo;
-                });
-
-                // Ordenar por data (mais recentes primeiro)
-                recentNews.sort((a, b) => {
-                    if (!a.pubDate) return 1;
-                    if (!b.pubDate) return -1;
-                    return new Date(b.pubDate) - new Date(a.pubDate);
-                });
-
-                // Esconder loading
-                newsLoading.style.display = 'none';
-
-                // Renderizar notícias (máximo 6)
-                const newsHTML = recentNews.slice(0, 6).map(item => {
-                    const date = item.pubDate ? new Date(item.pubDate) : null;
-                    let formattedDate = 'Recente';
-                    
-                    if (date) {
-                        const now = new Date();
-                        const diffTime = Math.abs(now - date);
-                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        
-                        if (diffDays === 0) {
-                            formattedDate = 'Hoje';
-                        } else if (diffDays === 1) {
-                            formattedDate = 'Ontem';
-                        } else if (diffDays < 7) {
-                            formattedDate = `${diffDays} dias atrás`;
-                        } else {
-                            formattedDate = date.toLocaleDateString('pt-BR', {
-                                day: '2-digit',
-                                month: 'short'
-                            });
-                        }
-                    }
-
-                    // Extrair nome da fonte
-                    const source = item._source || 'Automotivo';
-                    const sourceInitial = source.charAt(0).toUpperCase();
-
-                    // Limpar descrição
-                    let description = '';
-                    if (item.description) {
-                        description = item.description.replace(/<[^>]*>/g, '').substring(0, 150);
-                        if (item.description.length > 150) description += '...';
-                    } else if (item.content) {
-                        description = item.content.replace(/<[^>]*>/g, '').substring(0, 150) + '...';
-                    }
-
-                    // Verificar se tem imagem/thumbnail
-                    let imageHTML = '';
-                    const imageUrl = item.thumbnail || item.enclosure?.link || item.image;
-                    
-                    if (imageUrl) {
-                        imageHTML = `<img class="news-image" src="${imageUrl}" alt="" onerror="this.outerHTML='<div class=\\'news-image-placeholder\\'><svg xmlns=\\'http://www.w3.org/2000/svg\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\' stroke=\\'currentColor\\'><path stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' stroke-width=\\'2\\' d=\\'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z\\' /></svg></div>'">`;
-                    } else {
-                        imageHTML = `
-                            <div class="news-image-placeholder">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                                </svg>
-                            </div>
-                        `;
-                    }
-
-                    return `
-                        <div class="news-card">
-                            ${imageHTML}
-                            <div class="news-content">
-                                <h3>
-                                    <a href="${item.link}" target="_blank" rel="noopener noreferrer">
-                                        ${item.title}
-                                    </a>
-                                </h3>
-                                ${description ? `<p>${description}</p>` : ''}
-                                <div class="news-footer">
-                                    <div class="news-source-badge">
-                                        <div class="source-icon">${sourceInitial}</div>
-                                        <span class="source-name">${source}</span>
-                                    </div>
-                                    <div class="news-date">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        ${formattedDate}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                newsContainer.innerHTML = newsHTML;
-
-            } catch (error) {
-                console.error('Erro ao carregar notícias:', error);
-                newsLoading.style.display = 'none';
-                newsError.textContent = '⚠️ Não foi possível carregar as notícias. Tente novamente mais tarde.';
-                newsError.classList.add('show');
-            }
-        }
+      }
     </script>
-</body>
+  </body>
 </html>
