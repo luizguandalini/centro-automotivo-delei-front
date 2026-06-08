@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checklist de Serviço — Centro Automotivo Delei</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+      :root {
+        --navy: #1a2b4a;
+        --navy-light: #243558;
+        --navy-dark: #111d33;
+        --red: #e53935;
+        --green: #25d366;
+        --white: #ffffff;
+        --gray-50: #f4f6f9;
+        --gray-100: #e8ecf2;
+        --gray-300: #c8d0dc;
+        --gray-500: #7a8fa6;
+        --gray-700: #3d5166;
+        --black: #0a0a0a;
+        --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        font-family: "Inter", -apple-system, sans-serif;
+        background: var(--gray-50);
+        color: var(--black);
+        line-height: 1.5;
+        padding-bottom: 96px;
+        min-height: 100vh;
+      }
+
+      /* ===== TOPBAR ===== */
+      .topbar {
+        background: var(--navy-dark);
+        padding: 0.8rem 1rem;
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .topbar-back {
+        color: rgba(255,255,255,0.75);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.82rem;
+        font-weight: 500;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.18);
+        transition: var(--transition);
+        white-space: nowrap;
+      }
+      .topbar-back:hover { background: rgba(255,255,255,0.1); color: white; }
+      .topbar-title {
+        color: white;
+        font-size: 0.92rem;
+        font-weight: 700;
+        flex: 1;
+        text-align: center;
+        letter-spacing: 0.02em;
+      }
+      .topbar-placeholder { width: 68px; }
+
+      /* ===== CONTAINER ===== */
+      .container {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 1.25rem 1rem 1.5rem;
+      }
+      .page-subtitle {
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--gray-500);
+        font-style: italic;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 1.25rem;
+      }
+
+      /* ===== CARD ===== */
+      .cl-card {
+        background: var(--white);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+      }
+      .cl-card-header {
+        background: var(--navy);
+        padding: 0.8rem 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+      }
+      .cl-card-header-icon {
+        width: 32px;
+        height: 32px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .cl-card-header-icon svg { width: 17px; height: 17px; color: white; }
+      .cl-card-header h2 {
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: white;
+      }
+
+      /* ===== ITEM ===== */
+      .cl-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid var(--gray-100);
+      }
+      .cl-item:last-child { border-bottom: none; }
+
+      .cl-check {
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        border: 2px solid var(--gray-300);
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        background: white;
+        margin-top: 3px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .cl-check.checked { background: var(--navy); border-color: var(--navy); }
+      .cl-check svg { display: none; }
+      .cl-check.checked svg { display: block; }
+
+      .cl-body { flex: 1; min-width: 0; }
+      .cl-row {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        margin-bottom: 0.5rem;
+      }
+      .cl-icon {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        background: var(--navy);
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .cl-icon svg { width: 15px; height: 15px; color: white; }
+      .cl-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--black);
+        line-height: 1.35;
+      }
+      .cl-label small { color: var(--gray-500); font-weight: 400; display: block; font-size: 0.78rem; }
+
+      .cl-input {
+        width: 100%;
+        border: 1.5px solid var(--gray-100);
+        border-radius: 8px;
+        padding: 0.48rem 0.7rem;
+        font-size: 0.875rem;
+        font-family: inherit;
+        color: var(--black);
+        background: var(--gray-50);
+        transition: var(--transition);
+        outline: none;
+      }
+      .cl-input:focus {
+        border-color: var(--navy);
+        background: white;
+        box-shadow: 0 0 0 3px rgba(26,43,74,0.07);
+      }
+      .cl-input::placeholder { color: var(--gray-500); }
+      .cl-textarea { resize: vertical; min-height: 68px; }
+
+      /* ===== REGISTRO ===== */
+      .cl-registro-body {
+        padding: 1rem 1.1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem;
+      }
+      .reg-field { display: flex; flex-direction: column; gap: 0.3rem; }
+      .reg-field.full { grid-column: 1 / -1; }
+      .reg-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--gray-700);
+      }
+
+      /* ===== ACTION BAR ===== */
+      .action-bar {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: white;
+        border-top: 1px solid var(--gray-100);
+        padding: 0.8rem 1rem;
+        display: flex;
+        gap: 0.7rem;
+        z-index: 200;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.09);
+      }
+      .action-btn {
+        flex: 1;
+        padding: 0.85rem 0.5rem;
+        border: none;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .action-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+      .btn-download { background: var(--navy); color: white; }
+      .btn-download:active { transform: scale(0.97); opacity: 0.9; }
+      .btn-copy { background: var(--green); color: white; }
+      .btn-copy:active { transform: scale(0.97); opacity: 0.9; }
+
+      /* ===== TOAST ===== */
+      .toast {
+        position: fixed;
+        bottom: 6.5rem;
+        left: 50%;
+        transform: translateX(-50%) scale(0.9);
+        opacity: 0;
+        background: rgba(10,10,10,0.9);
+        color: white;
+        padding: 0.55rem 1.1rem;
+        border-radius: 100px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        z-index: 9999;
+        transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .toast.show { opacity: 1; transform: translateX(-50%) scale(1); }
+
+      /* ===== PRINT CARD (for screenshot) ===== */
+      #printCard {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        width: 520px;
+        background: #edf0f5;
+        font-family: "Inter", sans-serif;
+      }
+      .pc-header {
+        background: var(--navy);
+        padding: 20px 22px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .pc-header-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255,255,255,0.14);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .pc-header-text h1 {
+        font-size: 17px;
+        font-weight: 900;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        line-height: 1.15;
+      }
+      .pc-header-text p {
+        font-size: 8.5px;
+        color: rgba(255,255,255,0.65);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-top: 5px;
+        font-weight: 500;
+      }
+      .pc-section { margin: 14px 14px 0; }
+      .pc-section:last-of-type { margin-bottom: 14px; }
+      .pc-section-header {
+        background: var(--navy);
+        padding: 7px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 8px 8px 0 0;
+      }
+      .pc-section-header-icon {
+        width: 22px;
+        height: 22px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .pc-section-header h2 {
+        font-size: 10px;
+        font-weight: 700;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .pc-items {
+        background: white;
+        border-radius: 0 0 8px 8px;
+        overflow: hidden;
+      }
+      .pc-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 8px 12px;
+        border-bottom: 1px solid #edf0f5;
+      }
+      .pc-item:last-child { border-bottom: none; }
+      .pc-chk {
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        border: 2px solid #c8d0dc;
+        border-radius: 4px;
+        margin-top: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .pc-chk.on { background: var(--navy); border-color: var(--navy); }
+      .pc-item-icon {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        background: var(--navy);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .pc-item-body { flex: 1; }
+      .pc-item-label { font-size: 9.5px; font-weight: 500; color: #333; line-height: 1.3; }
+      .pc-item-value { font-size: 9.5px; color: var(--navy); font-weight: 700; margin-top: 2px; }
+      .pc-item-line { margin-top: 4px; border-bottom: 1px dotted #c8d0dc; }
+      .pc-registro {
+        background: white;
+        border-radius: 0 0 8px 8px;
+        padding: 10px 12px;
+        display: flex;
+        gap: 14px;
+      }
+      .pc-reg-field { flex: 1; }
+      .pc-reg-field.wide { flex: 2; }
+      .pc-reg-label { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #7a8fa6; }
+      .pc-reg-value { font-size: 10.5px; font-weight: 700; color: var(--navy); border-bottom: 1.5px solid #c8d0dc; padding-bottom: 3px; margin-top: 2px; min-height: 18px; }
+      .pc-footer {
+        background: var(--navy-dark);
+        padding: 11px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .pc-footer-text {
+        font-size: 10px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.8);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      @media (min-width: 560px) {
+        .container { padding: 1.5rem 1.5rem 2rem; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <a href="index.html" class="topbar-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        Voltar
+      </a>
+      <div class="topbar-title">Checklist de Serviço</div>
+      <div class="topbar-placeholder"></div>
+    </div>
+
+    <div class="container">
+      <p class="page-subtitle">Organização, atenção e segurança garantem um serviço de qualidade!</p>
+
+      <!-- ====== DADOS DO VEÍCULO ====== -->
+      <div class="cl-card">
+        <div class="cl-card-header">
+          <div class="cl-card-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          </div>
+          <h2>Dados do Veículo</h2>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-placa" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="2"/><line x1="7" y1="12" x2="9" y2="12"/><line x1="12" y1="12" x2="17" y2="12"/></svg>
+              </div>
+              <span class="cl-label">Conferir a placa do veículo</span>
+            </div>
+            <input class="cl-input" type="text" id="vl-placa" placeholder="ABC-1234">
+          </div>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-os" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </div>
+              <span class="cl-label">Confirmar a Ordem de Serviço (OS)</span>
+            </div>
+            <input class="cl-input" type="text" id="vl-os" placeholder="Nº da OS">
+          </div>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-km" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path stroke-linecap="round" d="M12 12l3.5-3.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>
+              </div>
+              <span class="cl-label">Registrar a quilometragem</span>
+            </div>
+            <input class="cl-input" type="text" id="vl-km" placeholder="Ex: 85.420 km">
+          </div>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-servicos" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+              </div>
+              <span class="cl-label">Confirmar os serviços solicitados pelo cliente</span>
+            </div>
+            <input class="cl-input" type="text" id="vl-servicos" placeholder="Descreva os serviços">
+          </div>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-combustivel" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 22V5a2 2 0 012-2h6a2 2 0 012 2v6h2a2 2 0 012 2v7a1 1 0 001 1M5 22h10M8 9h4"/></svg>
+              </div>
+              <span class="cl-label">Conferir nível de combustível</span>
+            </div>
+            <input class="cl-input" type="text" id="vl-combustivel" placeholder="Ex: ¼, ½, ¾, cheio...">
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== INSPEÇÃO INICIAL ====== -->
+      <div class="cl-card">
+        <div class="cl-card-header">
+          <div class="cl-card-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h2>Inspeção Inicial</h2>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-luzes" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <span class="cl-label">Verificar luzes de advertência no painel</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-avarias" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M5 11l1.5-4.5h11L19 11M3 11h18v6H3zM7 17v2M17 17v2M7 14h.01M17 14h.01"/></svg>
+              </div>
+              <span class="cl-label">Verificar avarias na carroceria<small>(riscos, amassados, trincas)</small></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-pneus" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+              </div>
+              <span class="cl-label">Conferir estado geral dos pneus</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-check" id="ck-obs" onclick="toggleCheck(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="cl-body">
+            <div class="cl-row">
+              <div class="cl-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              </div>
+              <span class="cl-label">Registrar observações antes do início do serviço</span>
+            </div>
+            <textarea class="cl-input cl-textarea" id="vl-obs" placeholder="Observações importantes..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== REGISTRO DO INÍCIO ====== -->
+      <div class="cl-card">
+        <div class="cl-card-header">
+          <div class="cl-card-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h2>Registro do Início</h2>
+        </div>
+        <div class="cl-registro-body">
+          <div class="reg-field full">
+            <label class="reg-label" for="vl-mecanico">Mecânico Responsável</label>
+            <input class="cl-input" type="text" id="vl-mecanico" placeholder="Nome do mecânico">
+          </div>
+          <div class="reg-field">
+            <label class="reg-label" for="vl-data">Data</label>
+            <input class="cl-input" type="date" id="vl-data">
+          </div>
+          <div class="reg-field">
+            <label class="reg-label" for="vl-horario">Horário de Início</label>
+            <input class="cl-input" type="time" id="vl-horario">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION BAR -->
+    <div class="action-bar">
+      <button class="action-btn btn-download" onclick="downloadImage()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Baixar Imagem
+      </button>
+      <button class="action-btn btn-copy" onclick="copyWhatsApp()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        Copiar WhatsApp
+      </button>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- PRINT CARD -->
+    <div id="printCard"></div>
+
+    <script>
+      function toggleCheck(el) {
+        el.classList.toggle('checked');
+      }
+
+      function isOn(id) {
+        return document.getElementById(id).classList.contains('checked');
+      }
+
+      function val(id) {
+        const el = document.getElementById(id);
+        return el ? el.value.trim() : '';
+      }
+
+      function fmtDate(s) {
+        if (!s) return '___/___/______';
+        const [y, m, d] = s.split('-');
+        return `${d}/${m}/${y}`;
+      }
+
+      function getData() {
+        return {
+          ckPlaca: isOn('ck-placa'), placa: val('vl-placa'),
+          ckOs: isOn('ck-os'), os: val('vl-os'),
+          ckKm: isOn('ck-km'), km: val('vl-km'),
+          ckServicos: isOn('ck-servicos'), servicos: val('vl-servicos'),
+          ckCombustivel: isOn('ck-combustivel'), combustivel: val('vl-combustivel'),
+          ckLuzes: isOn('ck-luzes'),
+          ckAvarias: isOn('ck-avarias'),
+          ckPneus: isOn('ck-pneus'),
+          ckObs: isOn('ck-obs'), obs: val('vl-obs'),
+          mecanico: val('vl-mecanico'),
+          data: val('vl-data'),
+          horario: val('vl-horario'),
+        };
+      }
+
+      /* ===== COPY WHATSAPP ===== */
+      function copyWhatsApp() {
+        const d = getData();
+        const cb = c => c ? '✅' : '🔲';
+        const fld = (label, v) => `${label} → ${v || '___________'}`;
+
+        const text =
+`✅ *CHECKLIST DE INÍCIO DO SERVIÇO* ✅
+_Organização, atenção e segurança garantem um serviço de qualidade!_
+
+━━━━━━━━━━━━━━━━━━━
+🚗 *DADOS DO VEÍCULO*
+━━━━━━━━━━━━━━━━━━━
+${cb(d.ckPlaca)} ${fld('Conferir a placa do veículo', d.placa)}
+${cb(d.ckOs)} ${fld('Confirmar a Ordem de Serviço (OS)', d.os)}
+${cb(d.ckKm)} ${fld('Registrar a quilometragem', d.km)}
+${cb(d.ckServicos)} ${fld('Confirmar os serviços solicitados pelo cliente', d.servicos)}
+${cb(d.ckCombustivel)} ${fld('Conferir nível de combustível', d.combustivel)}
+
+━━━━━━━━━━━━━━━━━━━
+🔍 *INSPEÇÃO INICIAL*
+━━━━━━━━━━━━━━━━━━━
+${cb(d.ckLuzes)} Verificar luzes de advertência no painel
+${cb(d.ckAvarias)} Verificar avarias na carroceria (riscos, amassados, trincas)
+${cb(d.ckPneus)} Conferir estado geral dos pneus
+${cb(d.ckObs)} Registrar observações antes do início do serviço → ${d.obs || '___________'}
+
+━━━━━━━━━━━━━━━━━━━
+📋 *REGISTRO DO INÍCIO*
+━━━━━━━━━━━━━━━━━━━
+👨‍🔧 Mecânico: ${d.mecanico || '___________'}
+📅 Data: ${fmtDate(d.data)}
+⏰ Horário de início: ${d.horario || '___:___'}
+
+✅ = Feito   ❌ = Pendente/Problema`;
+
+        const copy = text => {
+          if (navigator.clipboard) {
+            return navigator.clipboard.writeText(text);
+          }
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          Object.assign(ta.style, { position: 'fixed', opacity: '0', top: '0', left: '0' });
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          return Promise.resolve();
+        };
+
+        copy(text)
+          .then(() => showToast('✅ Copiado para área de transferência!'))
+          .catch(() => showToast('❌ Não foi possível copiar'));
+      }
+
+      /* ===== DOWNLOAD IMAGE ===== */
+      function buildPrintCard(d) {
+        const svgCheck = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+        const chk = on => on
+          ? `<div class="pc-chk on">${svgCheck}</div>`
+          : `<div class="pc-chk"></div>`;
+
+        const ico = svg => `<div class="pc-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${svg}</svg></div>`;
+
+        const row = (on, iconPath, label, value) => `
+          <div class="pc-item">
+            ${chk(on)}
+            ${ico(iconPath)}
+            <div class="pc-item-body">
+              <div class="pc-item-label">${label}</div>
+              ${value ? `<div class="pc-item-value">${value}</div>` : `<div class="pc-item-line"></div>`}
+            </div>
+          </div>`;
+
+        const rowNoInput = (on, iconPath, label) => `
+          <div class="pc-item">
+            ${chk(on)}
+            ${ico(iconPath)}
+            <div class="pc-item-body">
+              <div class="pc-item-label">${label}</div>
+            </div>
+          </div>`;
+
+        const secHead = (iconPath, title) => `
+          <div class="pc-section-header">
+            <div class="pc-section-header-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${iconPath}</svg></div>
+            <h2>${title}</h2>
+          </div>`;
+
+        return `
+          <div class="pc-header">
+            <div class="pc-header-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div class="pc-header-text">
+              <h1>Checklist de<br>Início do Serviço</h1>
+              <p>Organização, atenção e segurança garantem um serviço de qualidade!</p>
+            </div>
+          </div>
+
+          <div class="pc-section">
+            ${secHead(`<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>`, 'Dados do Veículo')}
+            <div class="pc-items">
+              ${row(d.ckPlaca, `<rect x="2" y="7" width="20" height="10" rx="2"/><line x1="7" y1="12" x2="9" y2="12"/><line x1="12" y1="12" x2="17" y2="12"/>`, 'Conferir a placa do veículo', d.placa)}
+              ${row(d.ckOs, `<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>`, 'Confirmar a Ordem de Serviço (OS)', d.os)}
+              ${row(d.ckKm, `<circle cx="12" cy="12" r="10"/><path d="M12 12l3.5-3.5"/><circle cx="12" cy="12" r="1" fill="white" stroke="none"/>`, 'Registrar a quilometragem', d.km)}
+              ${row(d.ckServicos, `<path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>`, 'Confirmar os serviços solicitados pelo cliente', d.servicos)}
+              ${row(d.ckCombustivel, `<path d="M5 22V5a2 2 0 012-2h6a2 2 0 012 2v6h2a2 2 0 012 2v7a1 1 0 001 1M5 22h10M8 9h4"/>`, 'Conferir nível de combustível', d.combustivel)}
+            </div>
+          </div>
+
+          <div class="pc-section">
+            ${secHead(`<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>`, 'Inspeção Inicial')}
+            <div class="pc-items">
+              ${rowNoInput(d.ckLuzes, `<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>`, 'Verificar luzes de advertência no painel')}
+              ${rowNoInput(d.ckAvarias, `<path d="M5 11l1.5-4.5h11L19 11M3 11h18v6H3zM7 17v2M17 17v2"/>`, 'Verificar avarias na carroceria (riscos, amassados, trincas)')}
+              ${rowNoInput(d.ckPneus, `<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>`, 'Conferir estado geral dos pneus')}
+              ${row(d.ckObs, `<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>`, 'Registrar observações antes do início do serviço', d.obs)}
+            </div>
+          </div>
+
+          <div class="pc-section">
+            ${secHead(`<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>`, 'Registro do Início')}
+            <div class="pc-registro">
+              <div class="pc-reg-field wide">
+                <div class="pc-reg-label">Mecânico Responsável</div>
+                <div class="pc-reg-value">${d.mecanico || ''}</div>
+              </div>
+              <div class="pc-reg-field">
+                <div class="pc-reg-label">Data</div>
+                <div class="pc-reg-value">${fmtDate(d.data)}</div>
+              </div>
+              <div class="pc-reg-field">
+                <div class="pc-reg-label">Horário de Início</div>
+                <div class="pc-reg-value">${d.horario || '__:__'}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pc-footer">
+            <div class="pc-footer-text">Um bom começo faz toda a diferença</div>
+          </div>`;
+      }
+
+      async function downloadImage() {
+        const d = getData();
+        const card = document.getElementById('printCard');
+
+        card.innerHTML = buildPrintCard(d);
+        card.style.cssText = 'position:absolute;left:0;top:0;width:520px;background:#edf0f5;font-family:Inter,sans-serif;z-index:-1;';
+
+        showToast('⏳ Gerando imagem...');
+
+        try {
+          const canvas = await html2canvas(card, {
+            scale: 2.5,
+            useCORS: true,
+            backgroundColor: '#edf0f5',
+            logging: false,
+            windowWidth: 520,
+          });
+
+          card.style.cssText = 'position:absolute;left:-9999px;top:0;width:520px;background:#edf0f5;font-family:Inter,sans-serif;';
+
+          const link = document.createElement('a');
+          link.download = 'checklist-inicio-servico.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+
+          showToast('✅ Imagem baixada com sucesso!');
+        } catch (err) {
+          card.style.cssText = 'position:absolute;left:-9999px;top:0;width:520px;background:#edf0f5;font-family:Inter,sans-serif;';
+          showToast('❌ Erro ao gerar imagem');
+          console.error(err);
+        }
+      }
+
+      function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2800);
+      }
+    </script>
+  </body>
+</html>
