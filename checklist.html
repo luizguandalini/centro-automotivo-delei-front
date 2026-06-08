@@ -197,6 +197,36 @@
       .cl-input::placeholder { color: var(--gray-500); }
       .cl-textarea { resize: vertical; min-height: 68px; }
 
+      .fuel-options {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.45rem;
+      }
+      .fuel-option { position: relative; display: block; }
+      .fuel-option input { position: absolute; opacity: 0; pointer-events: none; }
+      .fuel-option span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
+        border: 1.5px solid var(--gray-300);
+        border-radius: 8px;
+        background: var(--gray-50);
+        color: var(--gray-700);
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--transition);
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .fuel-option input:checked + span {
+        background: var(--navy);
+        border-color: var(--navy);
+        color: white;
+        box-shadow: 0 0 0 3px rgba(26,43,74,0.08);
+      }
+
       /* ===== REGISTRO ===== */
       .cl-registro-body {
         padding: 1rem 1.1rem;
@@ -543,7 +573,24 @@
               </div>
               <span class="cl-label">Conferir nível de combustível</span>
             </div>
-            <input class="cl-input" type="text" id="vl-combustivel" placeholder="Ex: ¼, ½, ¾, cheio...">
+            <div class="fuel-options" role="radiogroup" aria-label="Nível de combustível">
+              <label class="fuel-option">
+                <input type="radio" name="vl-combustivel" value="1/4" onchange="selectFuelLevel()">
+                <span>1/4</span>
+              </label>
+              <label class="fuel-option">
+                <input type="radio" name="vl-combustivel" value="1/2" onchange="selectFuelLevel()">
+                <span>1/2</span>
+              </label>
+              <label class="fuel-option">
+                <input type="radio" name="vl-combustivel" value="3/4" onchange="selectFuelLevel()">
+                <span>3/4</span>
+              </label>
+              <label class="fuel-option">
+                <input type="radio" name="vl-combustivel" value="Cheio" onchange="selectFuelLevel()">
+                <span>Cheio</span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -672,6 +719,18 @@
         return el ? el.value.trim() : '';
       }
 
+      function radioVal(name) {
+        const el = document.querySelector(`input[name="${name}"]:checked`);
+        return el ? el.value : '';
+      }
+
+      function selectFuelLevel() {
+        const check = document.getElementById('ck-combustivel');
+        if (check && !check.classList.contains('checked')) {
+          check.classList.add('checked');
+        }
+      }
+
       function fmtDate(s) {
         if (!s) return '___/___/______';
         const [y, m, d] = s.split('-');
@@ -689,7 +748,7 @@
           ckOs: isOn('ck-os'), os: val('vl-os'),
           ckKm: isOn('ck-km'), km: val('vl-km'),
           ckServicos: isOn('ck-servicos'), servicos: val('vl-servicos'),
-          ckCombustivel: isOn('ck-combustivel'), combustivel: val('vl-combustivel'),
+          ckCombustivel: isOn('ck-combustivel'), combustivel: radioVal('vl-combustivel'),
           ckLuzes: isOn('ck-luzes'),
           ckAvarias: isOn('ck-avarias'),
           ckPneus: isOn('ck-pneus'),
