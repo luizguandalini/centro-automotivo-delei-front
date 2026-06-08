@@ -382,6 +382,15 @@
         display: flex;
         gap: 14px;
       }
+      .pc-customer {
+        background: white;
+        border-radius: 0 0 8px 8px;
+        padding: 10px 12px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 12px;
+      }
+      .pc-customer .pc-reg-field.wide { grid-column: 1 / -1; }
       .pc-reg-field { flex: 1; }
       .pc-reg-field.wide { flex: 2; }
       .pc-reg-label { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #7a8fa6; }
@@ -420,6 +429,39 @@
 
     <div class="container">
       <p class="page-subtitle">Organização, atenção e segurança garantem um serviço de qualidade!</p>
+
+
+      <!-- ====== DADOS DO CLIENTE ====== -->
+      <div class="cl-card">
+        <div class="cl-card-header">
+          <div class="cl-card-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z"/></svg>
+          </div>
+          <h2>Dados do Cliente</h2>
+        </div>
+        <div class="cl-registro-body">
+          <div class="reg-field full">
+            <label class="reg-label" for="vl-cliente">Nome do Cliente</label>
+            <input class="cl-input" type="text" id="vl-cliente" placeholder="Nome completo">
+          </div>
+          <div class="reg-field">
+            <label class="reg-label" for="vl-cpf">CPF</label>
+            <input class="cl-input" type="text" id="vl-cpf" placeholder="000.000.000-00">
+          </div>
+          <div class="reg-field">
+            <label class="reg-label" for="vl-cep">CEP</label>
+            <input class="cl-input" type="text" id="vl-cep" placeholder="00000-000">
+          </div>
+          <div class="reg-field full">
+            <label class="reg-label" for="vl-endereco">Endereço</label>
+            <input class="cl-input" type="text" id="vl-endereco" placeholder="Rua, número, bairro e cidade">
+          </div>
+          <div class="reg-field full">
+            <label class="reg-label" for="vl-modelo-ano">Modelo do Carro / Ano</label>
+            <input class="cl-input" type="text" id="vl-modelo-ano" placeholder="Ex: Onix 2020">
+          </div>
+        </div>
+      </div>
 
       <!-- ====== DADOS DO VEÍCULO ====== -->
       <div class="cl-card">
@@ -638,6 +680,11 @@
 
       function getData() {
         return {
+          cliente: val('vl-cliente'),
+          cpf: val('vl-cpf'),
+          endereco: val('vl-endereco'),
+          modeloAno: val('vl-modelo-ano'),
+          cep: val('vl-cep'),
           ckPlaca: isOn('ck-placa'), placa: val('vl-placa'),
           ckOs: isOn('ck-os'), os: val('vl-os'),
           ckKm: isOn('ck-km'), km: val('vl-km'),
@@ -662,6 +709,15 @@
         const text =
 `✅ *CHECKLIST DE INÍCIO DO SERVIÇO* ✅
 _Organização, atenção e segurança garantem um serviço de qualidade!_
+
+━━━━━━━━━━━━━━━━━━━
+👤 *DADOS DO CLIENTE*
+━━━━━━━━━━━━━━━━━━━
+Nome do cliente → ${d.cliente || '___________'}
+CPF → ${d.cpf || '___________'}
+Endereço → ${d.endereco || '___________'}
+Modelo do carro / ano → ${d.modeloAno || '___________'}
+CEP → ${d.cep || '___________'}
 
 ━━━━━━━━━━━━━━━━━━━
 🚗 *DADOS DO VEÍCULO*
@@ -751,6 +807,32 @@ ${cb(d.ckObs)} Registrar observações antes do início do serviço → ${d.obs 
             <div class="pc-header-text">
               <h1>Checklist de<br>Início do Serviço</h1>
               <p>Organização, atenção e segurança garantem um serviço de qualidade!</p>
+            </div>
+          </div>
+
+          <div class="pc-section">
+            ${secHead(`<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0z"/><path d="M12 14c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z"/>`, 'Dados do Cliente')}
+            <div class="pc-customer">
+              <div class="pc-reg-field wide">
+                <div class="pc-reg-label">Nome do Cliente</div>
+                <div class="pc-reg-value">${d.cliente || ''}</div>
+              </div>
+              <div class="pc-reg-field">
+                <div class="pc-reg-label">CPF</div>
+                <div class="pc-reg-value">${d.cpf || ''}</div>
+              </div>
+              <div class="pc-reg-field">
+                <div class="pc-reg-label">CEP</div>
+                <div class="pc-reg-value">${d.cep || ''}</div>
+              </div>
+              <div class="pc-reg-field wide">
+                <div class="pc-reg-label">Endereço</div>
+                <div class="pc-reg-value">${d.endereco || ''}</div>
+              </div>
+              <div class="pc-reg-field wide">
+                <div class="pc-reg-label">Modelo do Carro / Ano</div>
+                <div class="pc-reg-value">${d.modeloAno || ''}</div>
+              </div>
             </div>
           </div>
 
